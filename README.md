@@ -31,8 +31,8 @@ This project provides an API wrapper to interact with two API endpoints and perf
 
     Replace `"<secret>"` with values from your provider
     ```
-    API_ENDPOINT_1=<secret>
-    API_ENDPOINT_2=<secret>
+    API_ENDPOINT_MANIFESTS=<secret>
+    API_ENDPOINT_TITLES=<secret>
     API_USER=<secret>
     API_PASSWORD=<secret>
     ```

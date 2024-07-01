@@ -4,8 +4,8 @@ from api_wrapper import APIWrapper
 from utils import (get_titles_playable_on_device,
                    filter_active_items,
                    get_level3_hd_manifest_paths)
-from config import (API_ENDPOINT_1,
-                    API_ENDPOINT_2,
+from config import (API_ENDPOINT_MANIFESTS,
+                    API_ENDPOINT_TITLES,
                     API_USER,
                     API_PASSWORD)
 
@@ -16,14 +16,12 @@ logging.basicConfig(
 
 
 def main():
-    api_wrapper = APIWrapper(API_ENDPOINT_1,
-                             API_ENDPOINT_2,
-                             API_USER,
-                             API_PASSWORD)
+    Titles = APIWrapper(API_ENDPOINT_TITLES, API_USER, API_PASSWORD)
+    Manifests = APIWrapper(API_ENDPOINT_MANIFESTS, API_USER, API_PASSWORD)
 
-    roku_titles = get_titles_playable_on_device(api_wrapper, "ROKU")
+    roku_titles = get_titles_playable_on_device(Titles, "ROKU")
     active_titles = filter_active_items(roku_titles)
-    level3_hd_manifest_paths = get_level3_hd_manifest_paths(api_wrapper,
+    level3_hd_manifest_paths = get_level3_hd_manifest_paths(Manifests,
                                                             active_titles)
 
     for title, path in zip(active_titles, level3_hd_manifest_paths):

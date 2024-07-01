@@ -6,20 +6,19 @@ import logging
 
 class APIWrapper:
     def __init__(self,
-                 endpoint_1: str,
-                 endpoint_2: str,
+                 endpoint: str,
                  username: str,
                  password: str):
-        self.endpoint_1 = endpoint_1  # Contains manifest data
-        self.endpoint_2 = endpoint_2  # Contains titles data
+        self.endpoint = endpoint
         self.auth = HTTPBasicAuth(username, password)
 
-    def make_request(self, url: str):
+    def make_request(self):
         """
         Function to make a request to the API and handle retries if needed
         :param url: URL to make the request to
         :return: JSON response from the API
         """
+        url = self.endpoint
         max_retries = 5
         for attempt in range(max_retries):
             try:
@@ -47,9 +46,9 @@ class APIWrapper:
         Function to fetch all titles from the API
         :return: List of titles
         """
-        logging.info(f"Fetching titles from endpoint: {self.endpoint_2}")
+        logging.info(f"Fetching titles from endpoint: {self.endpoint}")
         titles = []
-        response = self.make_request(self.endpoint_2)
+        response = self.make_request()
         for result in response["results"]:
             titles.append(result)
         return titles
@@ -62,7 +61,7 @@ class APIWrapper:
         """
         logging.info(f"Fetching manifest paths for title ID: {title_id}")
         manifest_paths = []
-        response = self.make_request(self.endpoint_1)
+        response = self.make_request()
         for result in response["results"]:
             if result["contentId"] == title_id:
                 manifest_paths.append(result)
